@@ -39,6 +39,38 @@ print(df.dtypes)
 print("\n")
 
 
+# See Data in Plots
+for col_name in df.columns:
+    if col_name != "age":
+        sns.catplot(x=col_name, data=df, kind='count')
+    if col_name != "gravity":
+        sns.catplot(x=col_name, data=df, kind='box')
+
+
+# See Count of Values Submited per Atribuite
+print("\n\n\n\nGravity Count Per Value Submited")
+print(df['gravity'].value_counts())
+
+
+print("\n\n\n\nAge Count Per Value Submited")
+print(df['age'].value_counts())
+
+
+print("\n\n\n\nEvaluation Bi Rads Count Per Value Submited")
+print(df['evaluation_bi_rads'].value_counts())
+
+
+print("\n\n\n\nMass Shape Count Per Value Submited")
+print(df['mass_shape'] .value_counts())
+
+
+print("\n\n\n\nMasse Margin Count Per Value Submited")
+print(df['mass_margin'].value_counts())
+
+print("\n\n\n\nMasse Desnsity Count Per Value Submited")
+print(df['mass_density'].value_counts())
+
+
 # Replace Nan With Mode for Categorical Variables and Mean for Age
 
 # evaluation_bi_rads Range is 1 to 5
