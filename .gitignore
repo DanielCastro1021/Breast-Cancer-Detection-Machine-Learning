@@ -1,3 +1,4 @@
 /Front-End/front-end-app/node_modules
 /Back-End/__pycache__
 .DS_Store
+.vscode
