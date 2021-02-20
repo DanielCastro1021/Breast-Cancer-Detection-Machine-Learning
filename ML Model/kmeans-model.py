@@ -3,11 +3,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from statsmodels.stats.outliers_influence import variance_inflation_factor
-import statsmodels.api as sm
-import seaborn as sns
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from scipy.spatial.distance import cdist, pdist
@@ -92,16 +89,11 @@ for i in np.arange(0, len(independent_variables)):
            for ix in range(X[independent_variables].shape[1])]
     maxloc = vif.index(max(vif))
     if max(vif) > thresh:
-        print('vif : ', vif)
-        print('dropping ',
-              X[independent_variables]. columns[maxloc], ' at index ', maxloc)
-
         del independent_variables[maxloc]
     else:
         break
 
 X = df[independent_variables]
-print('Final variables : ', independent_variables)
 
 
 # Train Test Split
