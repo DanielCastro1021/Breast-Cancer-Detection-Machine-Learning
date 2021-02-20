@@ -77,8 +77,6 @@ dependent_variables = ["gravity"]
 X = df[independent_variables]
 y = df[dependent_variables]
 
-print("Done defining X and y")
-
 
 thresh = 10  # threshold for VIF
 
@@ -87,16 +85,11 @@ for i in np.arange(0, len(independent_variables)):
            for ix in range(X[independent_variables].shape[1])]
     maxloc = vif.index(max(vif))
     if max(vif) > thresh:
-        print('vif : ', vif)
-        print('dropping ',
-              X[independent_variables]. columns[maxloc], ' at index ', maxloc)
-
         del independent_variables[maxloc]
     else:
         break
 
 X = df[independent_variables]
-print('Final variables : ', independent_variables)
 
 
 #  Train Test Split
@@ -104,32 +97,42 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=.8, random_state=1)
 
 #  Logistics Regression Config 1
-lr1 = LogisticRegression()
+lr = LogisticRegression()
 # l1 - lasso regularization ; l2 - ridge regularization
 # C - inverse of regularization strength
-lr1.fit(X_train, y_train)
+lr.fit(X_train, y_train)
 
 # make predictions on the testing set
-y_train_pred = lr1.predict(X_train)
-y_test_pred = lr1.predict(X_test)
-y_pred = lr1.predict(X)
+y_train_pred = lr.predict(X_train)
+y_test_pred = lr.predict(X_test)
+y_pred = lr.predict(X)
 
 # full data
 # print summary
-print(lr1.score(X, y_pred))
+print("\n")
 print('Train MAE : ', metrics.mean_absolute_error(y_train, y_train_pred))
+print("\n")
 print('Train RMSE ', np.sqrt(metrics.mean_squared_error(y_train, y_train_pred)))
+print("\n")
 print('Test MAE: ', metrics.mean_absolute_error(y_test, y_test_pred))
+print("\n")
 print('Test RMSE : ', np.sqrt(metrics.mean_squared_error(y_train, y_train_pred)))
-
-print("Accuracy: %s" % lr1.score(X, y))
-
+print("\n")
+print("Accuracy on full : %s" % lr.score(X, y))
+print("\n")
+print("Accuracy on test: " + str(lr.score(X_test, y_test)))
+print("\n")
+print("Accuracy on train: " + str(lr.score(X_train, y_train)))
+print("\n")
 
 # determine the false positive and false negative rates
-fpr, tpr, _ = metrics.roc_curve(y, lr1.predict_proba(X)[:, 1])
+fpr, tpr, _ = metrics.roc_curve(y, lr.predict_proba(X)[:, 1])
+
 # calculate AUC
 roc_auc = metrics.auc(fpr, tpr)
 print('ROC AUC : %.2f' % roc_auc)
+
+
 # plot a ROC curve for a specific class
 plt.figure()
 plt.plot(fpr, tpr, label='ROC curve ( area = %.2f ' % roc_auc)
