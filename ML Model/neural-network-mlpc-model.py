@@ -86,16 +86,11 @@ for i in np.arange(0, len(independent_variables)):
            for ix in range(X[independent_variables].shape[1])]
     maxloc = vif.index(max(vif))
     if max(vif) > thresh:
-        print('vif : ', vif)
-        print('dropping ',
-              X[independent_variables]. columns[maxloc], ' at index ', maxloc)
-
         del independent_variables[maxloc]
     else:
         break
 
 X = df[independent_variables]
-print('Final variables : ', independent_variables)
 
 
 #  Train Test Split
@@ -103,32 +98,20 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=.8, random_state=1)
 
 
-####################################################################################################
 # Rede Neuronal
-####################################################################################################
 
-####################################################################################################
-# Treinar normalização com os dados de treino,
-# para depois normalizar os dados de teste com a média e desvio-padrão dos dados de treino
 scaler = StandardScaler()
 scaler.fit(X_train)
-####################################################################################################
-# Normalização com desvio padrão
+
 X_train_scaled = scaler.transform(X_train)
 X_test_scaled = scaler.transform(X_test)
-####################################################################################################
-# Neural Network Config and Train
+
 mlp = MLPClassifier(hidden_layer_sizes=(
-    1000), activation='logistic', max_iter=000)
+    100), activation='logistic', max_iter=100)
 mlp.fit(X_train_scaled, y_train)
-####################################################################################################
-# Neural Network Results
+
+
 print("Training set score : %f" % mlp.score(X_train_scaled, y_train))
 print("Test set score : %f" % mlp.score(X_test_scaled, y_test))
-####################################################################################################
-# Predict
-####################################################################################################
-X_test_predicted = mlp.predict(X_test_scaled)
-####################################################################################################
 
 # %%
