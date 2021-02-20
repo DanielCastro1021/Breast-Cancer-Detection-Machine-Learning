@@ -9,8 +9,6 @@ from keras import layers
 from keras import models
 from keras import regularizers
 import matplotlib.pyplot as plt
-import pickle
-
 # Read Dataset file
 df = pd.read_csv('dataset.csv')
 
@@ -141,6 +139,11 @@ plt.legend(['train', 'test'], loc='upper left')
 plt.show()
 
 
-pickle.dump(model, open("model.mo", "wb"))
+model_json = model.to_json()
 
+
+with open("model_num.json", "w") as json_file:
+    json_file.write(model_json)
+
+model.save_weights("model_num.h5")
 # %%
