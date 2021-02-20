@@ -107,7 +107,7 @@ model.add(layers.Dense(16, activation='relu'))
 model.add(layers.Dense(1, activation='sigmoid'))
 model.compile(optimizer='rmsprop', loss='binary_crossentropy',
               metrics=['accuracy'])
-history = model.fit(X_train, y_train, epochs=100, batch_size=512,
+history = model.fit(X_train, y_train, epochs=100, batch_size=25,
                     validation_data=(X_test, y_test), verbose=0)
 
 
