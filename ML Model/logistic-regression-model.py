@@ -94,7 +94,7 @@ X = df[independent_variables]
 
 #  Train Test Split
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, train_size=.8, random_state=1)
+    X, y, train_size=.8, random_state=10)
 
 #  Logistics Regression Config 1
 lr = LogisticRegression()
