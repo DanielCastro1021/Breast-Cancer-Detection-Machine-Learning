@@ -1,24 +1,11 @@
 # %%
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from statsmodels.stats.outliers_influence import variance_inflation_factor
-import statsmodels.api as sm
-import seaborn as sns
 
 
 # Read Dataset file
 df = pd.read_csv('dataset.csv')
-
-# Config Seaborn Graphs
-sns.set_theme(style="ticks", color_codes=True)
-
-
-print(df.count())
-# Check For Null Values and which atribuite has Null values.
-print("\n")
-print(df.isnull().any())
-print("\n")
 
 
 # Convert Missing values To -1
@@ -31,47 +18,10 @@ df['age'] = np.where(df.age == '?', -1, df.age)
 
 
 # Convert Columns from object type to int type
-print(df.dtypes)
-print("\n")
 
 for col_name in df.columns:
     if(df[col_name].dtype == 'object'):
         df[col_name] = df[col_name].astype('int')
-
-print(df.dtypes)
-print("\n")
-
-
-# See Data in Plots
-for col_name in df.columns:
-    if col_name != "age":
-        sns.catplot(x=col_name, data=df, kind='count')
-    if col_name != "gravity":
-        sns.catplot(x=col_name, data=df, kind='box')
-
-
-# See Count of Values Submited per Atribuite
-print("\n\n\n\nGravity Count Per Value Submited")
-print(df['gravity'].value_counts())
-
-
-print("\n\n\n\nAge Count Per Value Submited")
-print(df['age'].value_counts())
-
-
-print("\n\n\n\nEvaluation Bi Rads Count Per Value Submited")
-print(df['evaluation_bi_rads'].value_counts())
-
-
-print("\n\n\n\nMass Shape Count Per Value Submited")
-print(df['mass_shape'] .value_counts())
-
-
-print("\n\n\n\nMasse Margin Count Per Value Submited")
-print(df['mass_margin'].value_counts())
-
-print("\n\n\n\nMasse Desnsity Count Per Value Submited")
-print(df['mass_density'].value_counts())
 
 
 # Replace Nan With Mode for Categorical Variables and Mean for Age
@@ -118,53 +68,12 @@ df['mass_density'].fillna(df['mass_density'].mode()[0], inplace=True)
 df['age'] = np.where(df.age == -1, df['age'].mean(), df.age)
 
 
-# See Count of Values Submited per Atribuite
-print("\n\n\n\nGravity Count Per Value Submited")
-print(df['gravity'].value_counts())
-
-
-print("\n\n\n\nAge Count Per Value Submited")
-print(df['age'].value_counts())
-
-
-print("\n\n\n\nEvaluation Bi Rads Count Per Value Submited")
-print(df['evaluation_bi_rads'].value_counts())
-
-
-print("\n\n\n\nMass Shape Count Per Value Submited")
-print(df['mass_shape'] .value_counts())
-
-
-print("\n\n\n\nMasse Margin Count Per Value Submited")
-print(df['mass_margin'].value_counts())
-
-print("\n\n\n\nMasse Desnsity Count Per Value Submited")
-print(df['mass_density'].value_counts())
-
-
-# See Data in Plots
-for col_name in df.columns:
-    if col_name != "age":
-        sns.catplot(x=col_name, data=df, kind='count')
-    if col_name != "gravity":
-        sns.catplot(x=col_name, data=df, kind='box')
-
-
-# See correlation matrix
-corr = df.corr()
-print(corr)
-sm.graphics.plot_corr(corr, xnames=list(corr.columns))
-plt.show()
-
-
 independent_variables = ["evaluation_bi_rads", "age",
                          "mass_shape", "mass_margin", "mass_density"]
 dependent_variables = ["gravity"]
 
 X = df[independent_variables]
 y = df[dependent_variables]
-
-print("Done defining X and y")
 
 
 thresh = 10  # threshold for VIF
@@ -174,15 +83,14 @@ for i in np.arange(0, len(independent_variables)):
            for ix in range(X[independent_variables].shape[1])]
     maxloc = vif.index(max(vif))
     if max(vif) > thresh:
-        print('vif : ', vif)
-        print('dropping ',
-              X[independent_variables]. columns[maxloc], ' at index ', maxloc)
-
         del independent_variables[maxloc]
     else:
         break
 
 X = df[independent_variables]
-print('Final variables : ', independent_variables)
+
+
+df = pd.merge(X, y, left_index=True, right_index=True)
+df.to_csv("pre-processed-dataset.csv", sep=',', index=False)
 
 # %%
