@@ -395,7 +395,7 @@
         <label for="">Idade:</label>
       </div>
       <div class="col-75">
-        <input type="number" />
+        <input [(ngModel)]="diagnose.age" type="number" />
       </div>
     </div>
 
@@ -404,11 +404,11 @@
         <label>Avaliação BI-RADS:</label>
       </div>
       <div class="col-75">
-        <select>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
+        <select [(ngModel)]="diagnose.evaluation_bi_rads">
+          <option [value]="1">1</option>
+          <option [value]="2">2</option>
+          <option [value]="3">3</option>
+          <option [value]="4">4</option>
         </select>
       </div>
     </div>
@@ -418,11 +418,11 @@
         <label>Forma Massa:</label>
       </div>
       <div class="col-75">
-        <select>
-          <option value="1">Redonda</option>
-          <option value="2">Oval</option>
-          <option value="3">Lobular</option>
-          <option value="4">Irregular</option>
+        <select [(ngModel)]="diagnose.mass_shape">
+          <option [value]="1">Redonda</option>
+          <option [value]="2">Oval</option>
+          <option [value]="3">Lobular</option>
+          <option [value]="4">Irregular</option>
         </select>
       </div>
     </div>
@@ -432,12 +432,12 @@
         <label>Margem Massa:</label>
       </div>
       <div class="col-75">
-        <select>
-          <option value="1">Circunscrito</option>
-          <option value="2">Micro-lobulado</option>
-          <option value="3">Obscurecido</option>
-          <option value="4">Mal-definido</option>
-          <option value="5">Espiculado</option>
+        <select [(ngModel)]="diagnose.mass_margin">
+          <option [value]="1">Circunscrito</option>
+          <option [value]="2">Micro-lobulado</option>
+          <option [value]="3">Obscurecido</option>
+          <option [value]="4">Mal-definido</option>
+          <option [value]="5">Espiculado</option>
         </select>
       </div>
     </div>
@@ -447,17 +447,17 @@
         <label>Densidade Massa:</label>
       </div>
       <div class="col-75">
-        <select>
-          <option value="1">Alto</option>
-          <option value="2">Médio</option>
-          <option value="3">Baixo</option>
-          <option value="4">Contém Gordura</option>
+        <select [(ngModel)]="diagnose.mass_density">
+          <option [value]="1">Alto</option>
+          <option [value]="2">Médio</option>
+          <option [value]="3">Baixo</option>
+          <option [value]="4">Contém Gordura</option>
         </select>
       </div>
     </div>
 
     <div class="row">
-      <button>Calcular Gravidade</button>
+      <button (click)="getDiagnose()">Calcular Gravidade</button>
     </div>
   </div>
 
@@ -482,5 +482,3 @@
     />
   </svg>
 </div>
-
-<router-outlet></router-outlet>
