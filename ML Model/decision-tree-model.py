@@ -4,7 +4,10 @@ import pandas as pd
 import numpy as np
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from sklearn.model_selection import train_test_split
-
+from six import StringIO
+from IPython.display import Image
+from sklearn.tree import export_graphviz
+import pydotplus
 
 # Read Dataset file
 df = pd.read_csv('dataset.csv')
@@ -103,5 +106,12 @@ clf.fit(X_train, y_train)
 print("Score on test: " + str(clf.score(X_test, y_test)))
 print("Score on train: " + str(clf.score(X_train, y_train)))
 
+
+dot_data = StringIO()
+export_graphviz(clf, out_file=dot_data,
+                filled=True, rounded=True,
+                special_characters=True)
+graph = pydotplus.graph_from_dot_data(dot_data.getvalue())
+Image(graph.create_png())
 
 # %%
