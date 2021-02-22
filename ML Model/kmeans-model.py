@@ -2,7 +2,6 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from statsmodels.stats.outliers_influence import variance_inflation_factor
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
 from sklearn.cluster import KMeans
@@ -82,30 +81,9 @@ X = df[independent_variables]
 y = df[dependent_variables]
 
 
-thresh = 10  # threshold for VIF
-
-for i in np.arange(0, len(independent_variables)):
-    vif = [variance_inflation_factor(X[independent_variables].values, ix)
-           for ix in range(X[independent_variables].shape[1])]
-    maxloc = vif.index(max(vif))
-    if max(vif) > thresh:
-        del independent_variables[maxloc]
-    else:
-        break
-
-X = df[independent_variables]
-
-
-# Train Test Split
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, train_size=.8, random_state=1)
-
-
-#  K-means Model
 sc = StandardScaler()
 sc.fit(X)
 X = sc.transform(X)
-
 ################################################################################
 # Find number of clusters - Elbow Method
 ################################################################################
@@ -123,7 +101,7 @@ bss = tss - wcss
 varExplained = bss / tss * 100
 kIdx = 2
 # plot
-plt.figure(figsize=(10, 4))
+plt.figure(figsize=(6, 4))
 plt.subplot(1, 2, 1)
 plt.plot(K, avgWithinSS, 'b*-')
 plt.plot(K[kIdx], avgWithinSS[kIdx], marker='o', markersize=12,
@@ -132,20 +110,20 @@ plt.grid(True)
 plt.xlabel('Number of clusters ')
 plt.ylabel('Average within - cluster sum of squares')
 plt.title('Elbow for k- means clustering ')
-
-
 ################################################################################
-# Find number of clusters - Average Silhouette Method
+# Find number of clusters -Average Silhouette Method
 ################################################################################
 score = []
 for n_clusters in range(2, 10):
-    kmeans = KMeans(n_clusters=n_clusters, random_state=1)
+    kmeans = KMeans(n_clusters=n_clusters, random_state=10)
     kmeans.fit(X)
     labels = kmeans.labels_
     centroids = kmeans.cluster_centers_
     score.append(silhouette_score(X, labels, metric='euclidean'))
+
+
 # plot
-plt.figure(figsize=(10, 10))
+plt.figure(figsize=(6, 4))
 plt.plot(score)
 plt.grid(True)
 plt.ylabel('Silhouette Score ')
@@ -154,47 +132,62 @@ plt.title('Silhouette for k- means')
 plt.show()
 
 
+#  Train Test Split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, train_size=.8, random_state=10)
+
+
 ################################################################################
+# Model k-means 2 clusters
+################################################################################
+
+print("2 clusters")
+model = KMeans(n_clusters=2, random_state=10)
+model.fit(X)
+y_predict = model.predict(X)
+print("Accuracy: ", metrics.accuracy_score(y, y_predict))
+print("Classification report:", metrics.classification_report(y, y_predict))
 print("\n")
-print("Model k-means 3 Clusters")
-################################################################################
-model = KMeans(n_clusters=3, random_state=1)
-model.fit(X_train)
-y_predict = kmeans.predict(X_test)
-print("Accuracy: ", metrics.accuracy_score(y_test, y_predict))
-print("Classification report:", metrics.classification_report(y_test, y_predict))
-
-
-################################################################################
 print("\n")
-print("Model k-means 5 Clusters")
-################################################################################
-kmeans = KMeans(n_clusters=5, random_state=1)
-kmeans.fit(X_train)
-y_predict = kmeans.predict(X_test)
-print("Accuracy: ", metrics.accuracy_score(y_test, y_predict))
-print("Classification report:", metrics.classification_report(y_test, y_predict))
-
 
 ################################################################################
+# Model k-means 3 clusters
+################################################################################
+
+print("3 clusters")
+model = KMeans(n_clusters=3, random_state=10)
+model.fit(X)
+y_predict = model.predict(X)
+print("Accuracy: ", metrics.accuracy_score(y, y_predict))
+print("Classification report:", metrics.classification_report(y, y_predict))
 print("\n")
-print("Model k-means 7 Clusters")
-################################################################################
-kmeans = KMeans(n_clusters=7, random_state=1)
-kmeans.fit(X_train)
-y_predict = kmeans.predict(X_test)
-print("Accuracy: ", metrics.accuracy_score(y_test, y_predict))
-print("Classification report:", metrics.classification_report(y_test, y_predict))
-
-
-################################################################################
 print("\n")
-print("Model k-means 9 Clusters")
+
+
 ################################################################################
-kmeans = KMeans(n_clusters=9, random_state=1)
-kmeans.fit(X_train)
-y_predict = kmeans.predict(X_test)
-print("Accuracy: ", metrics.accuracy_score(y_test, y_predict))
-print("Classification report:", metrics.classification_report(y_test, y_predict))
+# Model k-means 6 clusters
+################################################################################
+print("6 clusters")
+model = KMeans(n_clusters=6, random_state=10)
+model.fit(X)
+y_predict = model.predict(X)
+print("Accuracy: ", metrics.accuracy_score(y, y_predict))
+print("Classification report:", metrics.classification_report(y, y_predict))
+print("\n")
+print("\n")
+
+
+################################################################################
+# Model k-means  8  clusters
+################################################################################
+print("8 clusters")
+model = KMeans(n_clusters=8, random_state=10)
+model.fit(X)
+y_predict = model.predict(X)
+print("Accuracy: ", metrics.accuracy_score(y, y_predict))
+print("Classification report:", metrics.classification_report(y, y_predict))
+print("\n")
+print("\n")
+
 
 # %%
