@@ -395,7 +395,7 @@
         <label for="">Idade:</label>
       </div>
       <div class="col-75">
-        <input [(ngModel)]="diagnose.age" type="number" />
+        <input [(ngModel)]="diagnose.age" type="number" min="1" />
       </div>
     </div>
 
@@ -409,6 +409,7 @@
           <option [value]="2">2</option>
           <option [value]="3">3</option>
           <option [value]="4">4</option>
+          <option [value]="5">5</option>
         </select>
       </div>
     </div>
