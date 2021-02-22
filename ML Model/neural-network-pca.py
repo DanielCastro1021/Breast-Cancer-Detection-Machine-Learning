@@ -114,7 +114,7 @@ plt.show()
 # to better understanding of interaction of the dimensions
 # plot the first 3 PCA dimensions
 
-X_reduced = PCA(n_components=len(independent_variables)).fit_transform(X)
+X_reduced = PCA(n_components=4).fit_transform(X)
 
 #  Train Test Split
 X_train, X_test, y_train, y_test = train_test_split(
@@ -123,10 +123,9 @@ X_train, X_test, y_train, y_test = train_test_split(
 # Rede Neuronal
 
 model = models.Sequential()
-model.add(layers.Dense(2, kernel_regularizer=regularizers.l2(0.003),
-                       activation='relu', input_shape=(len(independent_variables),)))
-model.add(layers.Dense(
-    2, kernel_regularizer=regularizers.l2(0.003), activation='relu'))
+model.add(layers.Dense(4, activation='relu',
+                       input_shape=(4,)))
+
 model.add(layers.Dense(1, activation='sigmoid'))
 model.compile(optimizer='rmsprop', loss='binary_crossentropy',
               metrics=['accuracy'])

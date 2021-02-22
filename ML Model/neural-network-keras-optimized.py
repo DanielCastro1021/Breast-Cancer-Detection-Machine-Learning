@@ -28,10 +28,10 @@ X_train, X_test, y_train, y_test = train_test_split(
 # Rede Neuronal
 
 model = models.Sequential()
-model.add(layers.Dense(10, kernel_regularizer=regularizers.l2(0.003),
+model.add(layers.Dense(2, kernel_regularizer=regularizers.l2(0.003),
                        activation='relu', input_shape=(len(independent_variables),)))
 model.add(layers.Dense(
-    5, kernel_regularizer=regularizers.l2(0.003), activation='relu'))
+    2, kernel_regularizer=regularizers.l2(0.003), activation='relu'))
 
 
 model.add(layers.Dense(1, activation='sigmoid'))
@@ -45,6 +45,16 @@ history = model.fit(X_train, y_train, epochs=100, batch_size=32,
 print("Score on train: " + str(model.evaluate(X_train, y_train)[1]))
 print("Score on test: " + str(model.evaluate(X_test, y_test)[1]))
 
+
+# summarize history for accuracy
+plt.figure(1, figsize=(8, 6))
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.title('model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.show()
 
 # summarize history for loss
 plt.figure(1, figsize=(8, 6))

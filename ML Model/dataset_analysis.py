@@ -53,25 +53,34 @@ for col_name in df.columns:
 # See Count of Values Submited per Atribuite
 print("\n\n\n\nGravity Count Per Value Submited")
 print(df['gravity'].value_counts())
+print(df['gravity'].describe())
 
 
 print("\n\n\n\nAge Count Per Value Submited")
-print(df['age'].value_counts())
+print(df['age'].value_counts(sort=False))
+print(df['age'].describe())
 
 
 print("\n\n\n\nEvaluation Bi Rads Count Per Value Submited")
 print(df['evaluation_bi_rads'].value_counts())
+print(df['evaluation_bi_rads'].describe())
 
 
 print("\n\n\n\nMass Shape Count Per Value Submited")
 print(df['mass_shape'] .value_counts())
+print(df['mass_shape'].describe())
+print(df['mass_shape'].mode())
 
 
 print("\n\n\n\nMasse Margin Count Per Value Submited")
 print(df['mass_margin'].value_counts())
+print(df['mass_margin'].describe())
+print(df['mass_margin'].mode())
 
 print("\n\n\n\nMasse Desnsity Count Per Value Submited")
 print(df['mass_density'].value_counts())
+print(df['mass_density'].describe())
+print(df['mass_density'].mode())
 
 
 # Replace Nan With Mode for Categorical Variables and Mean for Age

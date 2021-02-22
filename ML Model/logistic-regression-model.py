@@ -24,18 +24,8 @@ y = df[dependent_variables]
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=.8, random_state=10)
 
-
-# Normalização
-'''
-scaler = StandardScaler()
-scaler.fit(X_train)
-X = scaler.transform(X)
-X_train = scaler.transform(X_train)
-X_test = scaler.transform(X_test)
-'''
-
 #  Logistics Regression Config 1
-lr = LogisticRegression()
+lr = LogisticRegression(max_iter=100)
 # l1 - lasso regularization ; l2 - ridge regularization
 # C - inverse of regularization strength
 lr.fit(X_train, y_train)
